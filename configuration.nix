@@ -39,17 +39,17 @@
   # };
 
   # Enable Desktop-Environment
-  services.desktopManager.pantheon.enable = true;
-  # services.desktopManager.gnome.enable = true;
-  # services.displayManager.gdm.enable = true;
+  # services.desktopManager.pantheon.enable = true;
+  services.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable udev rules
-  services.udev.extraRules = ''
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="04f3", ATTRS{idProduct}=="001a", ATTR{authorized}="0"
-  ''; 
+  # services.udev.extraRules = ''
+    # SUBSYSTEM=="usb", ATTRS{idVendor}=="04f3", ATTRS{idProduct}=="001a", ATTR{authorized}="0"
+  # ''; 
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -91,15 +91,36 @@
 
   programs.firefox.enable = true;
 
+  # Codecs for firefox
+  nixpkgs.config.packageOverrides = pkgs: {
+    intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
+  };
+  hardware.graphics = { # hardware.opengl until NixOS 24.05
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver # LIBVA_DRIVER_NAME=iHD (for HD Graphics starting Broadwell (2014) and newer)
+      intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+      libvdpau-va-gl
+    ];
+  };
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; }; # Force intel-media-driver
+
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     cmatrix
     fastfetch
+    ffmpeg-full
     git
-    # gnome-software
-    # gnome-tweaks
-    # gnomeExtensions.alphabetical-app-grid
+    gnome-software
+    gnome-tweaks
+    gnomeExtensions.alphabetical-app-grid
+    gnomeExtensions.hide-cursor
+    gst_all_1.gstreamer
+    gst_all_1.gst-plugins-good
+    gst_all_1.gst-plugins-bad
+    gst_all_1.gst-plugins-ugly
+    gst_all_1.gst-libav
     hunspell
     hunspellDicts.en-us
     hunspellDicts.he-il
