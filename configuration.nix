@@ -47,9 +47,9 @@
   services.xserver.enable = true;
 
   # Enable udev rules
-  # services.udev.extraRules = ''
-    # SUBSYSTEM=="usb", ATTRS{idVendor}=="04f3", ATTRS{idProduct}=="001a", ATTR{authorized}="0"
-  # ''; 
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="04f3", ATTRS{idProduct}=="2379", ATTR{authorized}="0"
+  ''; 
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
