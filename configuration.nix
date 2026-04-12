@@ -130,6 +130,7 @@
     gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-ugly
     gst_all_1.gst-libav
+    htop
     hunspell
     hunspellDicts.en-us
     hunspellDicts.he-il
