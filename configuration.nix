@@ -10,6 +10,12 @@
       ./hardware-configuration.nix
     ];
 
+  # Automatic cleanup
+  nix.gc.automatic = true;
+  nix.gc.dates = "daily";
+  nix.gc.options = "--delete-older-than 10d";
+  nix.settings.auto-optimise-store = true;
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -98,7 +104,17 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   xdg.portal.config.common.default = "gtk";
 
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    preferences = {
+      "privacy.resistFingerprinting" = true;
+    };
+    policies = {
+      DisableTelemetry = true;
+    };
+  };
+
+  programs.steam.enable = true;
 
   # Codecs for firefox
   nixpkgs.config.packageOverrides = pkgs: {
@@ -138,6 +154,7 @@
     hyphenDicts.en_US
     languagetool
     libreoffice-still
+    neovim
     nixos-artwork.wallpapers.simple-blue
     system-config-printer
     tldr
