@@ -89,7 +89,7 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-    #  tree
+      tree
     ];
     description = "Jaden Fogel";
   };
@@ -133,6 +133,7 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
+    bat
     cmatrix
     fastfetch
     ffmpeg-full
