@@ -52,7 +52,6 @@
   };
 
   # Enable Desktop-Environment
-  # services.desktopManager.pantheon.enable = true;
   services.desktopManager.gnome.enable = true;
   services.displayManager.gdm.enable = true;
 
@@ -115,6 +114,9 @@
   };
 
   programs.steam.enable = true;
+  programs.steam.extraPackages = with pkgs; [
+    adwaita-icon-theme
+  ];
 
   # Codecs for firefox
   nixpkgs.config.packageOverrides = pkgs: {
@@ -133,6 +135,8 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
+    adwaita-icon-theme
+    adwaita-qt
     bat
     cmatrix
     fastfetch
